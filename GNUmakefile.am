@@ -3,6 +3,7 @@ EXTRA_DIST = \
 	autogen.sh
 
 SHARED_SOURCES = \
+	globals.c \
 	cpio.c unshrink.c explode.c expand.c inflate.c crc32.c blast.c version.c
 
 bin_PROGRAMS = cpio pax pax_su3
@@ -20,17 +21,14 @@ libuxre_include = @libuxre_include@
 libuxre_lib     = @libuxre_lib@
 
 cpio_CPPFLAGS = -I$(libcommon_include) -I$(libuxre_include)
-cpio_CFLAGS   = -fcommon
 cpio_LDFLAGS  = -L$(libcommon_lib) -L$(libuxre_lib)
 cpio_LDADD    = -lcommon -luxre
 
 pax_CPPFLAGS = -I$(libcommon_include) -I$(libuxre_include)
-pax_CFLAGS   = -fcommon
 pax_LDFLAGS  = -L$(libcommon_lib) -L$(libuxre_lib)
 pax_LDADD    = -lcommon -luxre
 
 pax_su3_CPPFLAGS = -I$(libcommon_include) -I$(libuxre_include) -DSU3
-pax_su3_CFLAGS   = -fcommon
 pax_su3_LDFLAGS  = -L$(libcommon_lib) -L$(libuxre_lib)
 pax_su3_LDADD    = -lcommon -luxre
 
