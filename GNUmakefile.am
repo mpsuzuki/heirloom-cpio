@@ -1,0 +1,50 @@
+EXTRA_DIST = \
+	cpio.1 Makefile Makefile.mk pax.1 TODO \
+	autogen.sh
+
+SHARED_SOURCES = \
+	cpio.c unshrink.c explode.c expand.c inflate.c crc32.c blast.c version.c
+
+bin_PROGRAMS = cpio pax pax_su3
+
+cpio_SOURCES = nonpax.c flags.c $(SHARED_SOURCES)
+pax_SOURCES = pax.c $(SHARED_SOURCES)
+pax_su3_SOURCES = pax.c $(SHARED_SOURCES)
+
+libcommon_prefix  = @libcommon_prefix@
+libcommon_include = @libcommon_include@
+libcommon_lib     = @libcommon_lib@
+
+libuxre_prefix  = @libuxre_prefix@
+libuxre_include = @libuxre_include@
+libuxre_lib     = @libuxre_lib@
+
+cpio_CPPFLAGS = -I$(libcommon_include) -I$(libuxre_include)
+cpio_CFLAGS   = -fcommon
+cpio_LDFLAGS  = -L$(libcommon_lib) -L$(libuxre_lib)
+cpio_LDADD    = -lcommon -luxre
+
+pax_CPPFLAGS = -I$(libcommon_include) -I$(libuxre_include)
+pax_CFLAGS   = -fcommon
+pax_LDFLAGS  = -L$(libcommon_lib) -L$(libuxre_lib)
+pax_LDADD    = -lcommon -luxre
+
+pax_su3_CPPFLAGS = -I$(libcommon_include) -I$(libuxre_include) -DSU3
+pax_su3_CFLAGS   = -fcommon
+pax_su3_LDFLAGS  = -L$(libcommon_lib) -L$(libuxre_lib)
+pax_su3_LDADD    = -lcommon -luxre
+
+included_libcommon = heirloom-libcommon
+if BUILD_LIBCOMMON
+  OPT_LIBCOMMON = $(included_libcommon)
+  cpio_CPPFLAGS += -I$(libcommon_lib) # to include wrap-sigset.h
+  pax_CPPFLAGS += -I$(libcommon_lib) # to include wrap-sigset.h
+endif
+
+included_libuxre = heirloom-libuxre
+if BUILD_LIBUXRE
+  OPT_LIBUXRE = $(included_libuxre)
+endif
+
+SUBDIRS = $(OPT_LIBCOMMON) $(OPT_LIBUXRE)
+DIST_SUBDIRS = $(included_libcommon) $(included_libuxre)

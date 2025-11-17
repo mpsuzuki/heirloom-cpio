@@ -29,6 +29,15 @@
  * Sccsid @(#)cpio.c	1.307 (gritter) 10/9/10
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
+#if defined( HAVE__GNU_SOURCE ) && HAVE__GNU_SOURCE > 0
+#define _GNU_SOURCE
+#endif
+
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #ifdef	__linux__
@@ -53,7 +62,11 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
+#if defined( HAVE_WRAP_SIGSET_H ) && HAVE_WRAP_SIGSET_H > 0
+#include "wrap-sigset.h"
+#elif defined( HAVE_LIBCOMMON_SIGSET ) && HAVE_LIBCOMMON_SIGSET > 0
 #include "sigset.h"
+#endif
 #include <time.h>
 #include <utime.h>
 #include <pwd.h>
@@ -78,28 +91,29 @@
 
 #include <sys/ioctl.h>
 
-#if defined (__linux__) || defined (__sun) || defined (__FreeBSD__) || \
-	defined (__hpux) || defined (_AIX) || defined (__NetBSD__) || \
-	defined (__OpenBSD__) || defined (__DragonFly__) || defined (__APPLE__)
-#ifndef __G__
+#if defined( HAVE_SYS_MTIO_H ) && HAVE_SYS_MTIO_H > 0
 #include <sys/mtio.h>
 #endif
-#else	/* SVR4.2MP */
+
+#if defined( HAVE_SYS_SCSI_H ) && HAVE_SYS_SCSI_H > 0
 #include <sys/scsi.h>
+#endif
+
+#if defined( HAVE_SYS_ST01_H ) && HAVE_SYS_ST01_H > 0
 #include <sys/st01.h>
-#endif	/* SVR4.2MP */
+#endif
 
 #include <iblok.h>
 #include <sfile.h>
 #include <atoll.h>
 
-#ifdef	_AIX
+#ifdef HAVE_SYS_SYSMACROS_H
 #include <sys/sysmacros.h>
-#endif	/* _AIX */
+#endif
 
-#if !defined (major) && !defined (__G__)
+#ifdef HAVE_SYS_MKDEV_H
 #include <sys/mkdev.h>
-#endif	/* !major */
+#endif
 
 #include "cpio.h"
 #include "blast.h"
