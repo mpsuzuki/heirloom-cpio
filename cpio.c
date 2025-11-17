@@ -4795,8 +4795,8 @@ mstat(void)
 			if ((flags = fcntl(mt, F_GETFL)) != -1)
 				fcntl(mt, F_SETFL, flags | O_DIRECT);
 		}
-	}
 #endif	/* O_DIRECT */
+	}
 #elif defined (__sun)
 	if ((mtst.st_mode&S_IFMT) == S_IFCHR) {
 		struct mtdrivetype_request	mr;
