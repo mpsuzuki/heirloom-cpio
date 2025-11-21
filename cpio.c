@@ -2542,6 +2542,8 @@ sum(int fd, const char *fn, struct stat *sp, char *tg)
 	uint32_t	size = sp->st_size, sum = 0;
 	ssize_t	rd;
 	char	c;
+	/* checksum is 8-bytes, but sprintf() appends '\0' terminator */
+	char	tg_tmp[9];
 
 	getbuf(&buf, &bufsize, sp->st_blksize);
 	/*
@@ -2568,7 +2570,8 @@ sum(int fd, const char *fn, struct stat *sp, char *tg)
 		return 1;
 	}
 	c = tg[8];
-	sprintf(tg, "%08lx", (long)sum);
+	snprintf(tg_tmp, sizeof tg_tmp, "%08lx", (long)sum & 0xFFFFFFFFL);
+	memcpy(tg, tg_tmp, 8);
 	tg[8] = c;
 	return 0;
 }
