@@ -1850,7 +1850,7 @@ addfile(const char *realfile, struct stat *st,
 		}
 		if (fmttype & TYP_USTAR) {
 			if (fmttype == FMT_GNUTAR)
-				strcpy(bc.Tdr.t_magic, mag_gnutar);
+				memcpy(bc.Tdr.t_magic, mag_gnutar, sizeof bc.Tdr.t_magic);
 			else {
 				strcpy(bc.Tdr.t_magic, mag_ustar);
 				bc.Tdr.t_version[0] = bc.Tdr.t_version[1] = '0';
