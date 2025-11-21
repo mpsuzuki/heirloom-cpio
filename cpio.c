@@ -1744,8 +1744,8 @@ addfile(const char *realfile, struct stat *st,
 		int	c, n = 0;
 		pad = 512;
 		sprintf(bc.Bdr.b_mode, "%7.7o",(int)st->st_mode&(07777|S_IFMT));
-		sprintf(bc.Bdr.b_uid, "%7.7lo", (long)st->st_uid);
-		sprintf(bc.Bdr.b_gid, "%7.7lo", (long)st->st_gid);
+		sprintf(bc.Bdr.b_uid, "%7.7lo", (long)(st->st_uid & 07777777));
+		sprintf(bc.Bdr.b_gid, "%7.7lo", (long)(st->st_gid & 07777777));
 		sprintf(bc.Bdr.b_size, "%11.11llo",
 				(st->st_mode&S_IFMT) == S_IFREG && !zerolink ?
 				(long long)st->st_size&077777777777LL : 0LL);
