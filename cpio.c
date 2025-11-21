@@ -6486,7 +6486,7 @@ zipinfo(struct file *f)
 		cp = "bz2 ";
 		break;
 	default:
-		snprintf(b, sizeof b, "%4.4X", f->f_cmethod);
+		snprintf(b, sizeof b, "%4.4X", f->f_cmethod & 0xFFFF);
 		cp = b;
 	}
 	printf(" %s", cp);
@@ -6729,7 +6729,7 @@ writegnuname(const char *fn, long length, int flag)
 	sprintf(bc.Tdr.t_mode, "%7.7o", 0);
 	sprintf(bc.Tdr.t_uid, "%7.7o", 0);
 	sprintf(bc.Tdr.t_gid, "%7.7o", 0);
-	sprintf(bc.Tdr.t_size, "%11.11lo", length);
+	sprintf(bc.Tdr.t_size, "%11.11lo", length & 077777777777);
 	sprintf(bc.Tdr.t_mtime, "%11.11lo", 0L);
 	bc.Tdr.t_linkflag = flag;
 	memcpy(bc.Tdr.t_magic, mag_gnutar, 8);
