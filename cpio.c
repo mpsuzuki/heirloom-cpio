@@ -2430,8 +2430,8 @@ newmedia(int err)
 		answer[i] = 0;
 		if (Iflag || Oflag) {
 			if (answer[0] == '\0')
-				snprintf(answer, sizeof answer, Iflag ? Iflag :
-						Oflag);
+				snprintf(answer, sizeof answer, "%s",
+						Iflag ? Iflag : Oflag);
 			else if (answer[0] == 'q')
 				exit(errcnt != 0 ? sysv3 ? 1 : 2 : 0);
 			else if (Iflag)
