@@ -30,10 +30,9 @@ then
                      [directory for tar to search "sort" command before DEFBIN])
 fi
 
-unset subdirs
 HEIRLOOM_FIND_LIBCOMMON
 AS_IF([ test "x${build_included_libcommon}" = xyes ],
-      [ AC_CONFIG_SUBDIRS( heirloom-libcommon  ) ])
+      [ AC_CONFIG_SUBDIRS( heirloom-libcommon ) ])
 
 HEIRLOOM_FIND_LIBUXRE
 AS_IF([ test "x${build_included_libuxre}" = xyes ],
